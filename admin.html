@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — HealthCare NGO</title>
+  <meta name="description" content="Admin view for HealthCare NGO — manage and review patient and volunteer registrations." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+</head>
+<body class="admin-page">
+
+  <!-- ═══════════════════════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════════════════════ -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="navbar-inner">
+      <a href="index.html" class="brand" aria-label="HealthCare NGO home">
+        <div class="brand-icon" aria-hidden="true">⚕️</div>
+        <div class="brand-name">
+          HealthCare NGO
+          <span>Admin Dashboard</span>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="admin.html" class="nav-link active" aria-current="page">Admin View</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════
+       HERO (compact)
+  ═══════════════════════════════════════════════ -->
+  <section class="hero admin-page" aria-label="Admin page header" style="padding-bottom:0">
+    <div class="hero-inner" style="padding-bottom:40px;grid-template-columns:1fr">
+      <div class="hero-text">
+        <div class="hero-badge">📊 Admin Portal</div>
+        <h1 class="hero-title" style="font-size:2rem">Submission Dashboard</h1>
+        <p class="hero-subtitle" style="margin-bottom:0">
+          View, filter, and manage all patient and volunteer registrations in real time.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       MAIN CONTENT
+  ═══════════════════════════════════════════════ -->
+  <main class="page-content" id="main-content">
+
+    <!-- Summary Cards -->
+    <div class="summary-cards" role="region" aria-label="Registration statistics">
+      <div class="summary-card total fade-up" role="group" aria-label="Total submissions">
+        <div class="summary-icon" aria-hidden="true">📋</div>
+        <div class="summary-num" id="totalCount">0</div>
+        <div class="summary-title">Total Submissions</div>
+      </div>
+      <div class="summary-card patients fade-up" role="group" aria-label="Patient requests">
+        <div class="summary-icon" aria-hidden="true">🏥</div>
+        <div class="summary-num" id="patientCount">0</div>
+        <div class="summary-title">Patient Requests</div>
+      </div>
+      <div class="summary-card volunteers fade-up" role="group" aria-label="Volunteer registrations">
+        <div class="summary-icon" aria-hidden="true">🙋</div>
+        <div class="summary-num" id="volunteerCount">0</div>
+        <div class="summary-title">Volunteers Registered</div>
+      </div>
+      <div class="summary-card today fade-up" role="group" aria-label="Today's submissions">
+        <div class="summary-icon" aria-hidden="true">📅</div>
+        <div class="summary-num" id="todayCount">0</div>
+        <div class="summary-title">Submitted Today</div>
+      </div>
+    </div>
+
+    <!-- AI Auto-Summary Banner -->
+    <div class="ai-summary-banner fade-up" role="region" aria-label="AI generated summary">
+      <div class="ai-icon" aria-hidden="true">🤖</div>
+      <div class="ai-summary-text">
+        <div class="ai-summary-label">⚡ Auto Summary — AI Feature</div>
+        <div class="ai-summary-content" id="aiSummaryText">Loading summary...</div>
+      </div>
+    </div>
+
+    <!-- Table Section -->
+    <div role="region" aria-label="Submissions table">
+      <div class="table-toolbar">
+        <div class="filter-tabs" role="group" aria-label="Filter submissions">
+          <button class="filter-tab active" data-filter="all" id="filterAll">All</button>
+          <button class="filter-tab" data-filter="patient" id="filterPatients">🏥 Patients</button>
+          <button class="filter-tab" data-filter="volunteer" id="filterVolunteers">🙋 Volunteers</button>
+          <button class="filter-tab" data-filter="today" id="filterToday">📅 Today</button>
+        </div>
+        <div class="search-box" role="search">
+          <input
+            type="search"
+            id="searchInput"
+            placeholder="Search name, email..."
+            aria-label="Search submissions"
+          />
+        </div>
+      </div>
+
+      <div class="admin-header-row">
+        <p style="font-size:0.85rem;color:var(--text-secondary)">
+          💡 <em>Demo data pre-loaded. New form submissions appear here instantly.</em>
+        </p>
+        <button id="clearDataBtn" class="btn-danger" aria-label="Clear all data">
+          🗑️ Clear All Data
+        </button>
+      </div>
+
+      <div class="table-wrap">
+        <table role="table" aria-label="Submissions data table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name &amp; Email</th>
+              <th scope="col">Phone</th>
+              <th scope="col">Role</th>
+              <th scope="col">Message</th>
+              <th scope="col">Submitted</th>
+            </tr>
+          </thead>
+          <tbody id="submissionsBody" role="rowgroup">
+            <!-- Filled by admin.js -->
+          </tbody>
+        </table>
+
+        <div id="emptyState" class="empty-state" style="display:none" role="status">
+          <div class="empty-state-icon" aria-hidden="true">📭</div>
+          <div class="empty-state-text">No submissions found matching your filters.</div>
+          <p style="margin-top:10px;font-size:0.85rem;color:var(--text-muted)">
+            <a href="index.html" style="color:var(--primary);text-decoration:none;font-weight:600">
+              Go to the registration form →
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════ -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand">⚕️ HealthCare NGO</div>
+          <p class="footer-desc">
+            Admin portal for managing patient and volunteer registrations. All data is stored locally in browser storage.
+          </p>
+        </div>
+        <div>
+          <div class="footer-col-title">Quick Links</div>
+          <ul class="footer-links">
+            <li><a href="index.html">Registration Form</a></li>
+            <li><a href="admin.html">Admin Dashboard</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Support</div>
+          <ul class="footer-links">
+            <li><a href="mailto:admin@healthngo.org">📧 admin@healthngo.org</a></li>
+            <li><a href="tel:18001234567">📞 1800-123-4567</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2024 HealthCare NGO Admin Portal. Restricted Access.</span>
+        <span>Data is stored locally — no backend required</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Chatbot (available on admin page too) -->
+  <button
+    id="chatFab"
+    class="chat-fab"
+    aria-label="Open healthcare chat assistant"
+    aria-expanded="false"
+  >
+    💬
+    <span class="chat-badge" id="chatBadge" aria-label="1 new message">1</span>
+  </button>
+
+  <div
+    id="chatWindow"
+    class="chat-window"
+    role="dialog"
+    aria-modal="false"
+    aria-label="HealthBot chat assistant"
+  >
+    <div class="chat-header">
+      <div class="chat-header-avatar" aria-hidden="true">🤖</div>
+      <div class="chat-header-info">
+        <div class="chat-header-name">HealthBot</div>
+        <div class="chat-header-status">Online — Ask me anything!</div>
+      </div>
+      <button id="chatCloseBtn" class="chat-close-btn" aria-label="Close chat">✕</button>
+    </div>
+    <div id="chatMessages" class="chat-messages" role="log" aria-live="polite"></div>
+    <div id="chatSuggestions" class="chat-suggestions" role="group" aria-label="Quick replies"></div>
+    <div class="chat-input-row">
+      <input type="text" id="chatInput" class="chat-input" placeholder="Ask about services..." aria-label="Type your message" autocomplete="off" />
+      <button id="chatSendBtn" class="chat-send-btn" aria-label="Send message">➤</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/admin.js"></script>
+  <script src="js/chatbot.js"></script>
+
+</body>
+</html>
